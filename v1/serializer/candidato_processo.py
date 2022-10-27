@@ -1,15 +1,20 @@
 from rest_framework import serializers
+from rest_flex_fields import FlexFieldsModelSerializer
 from v1.models.perfil import Perfil
 import json
 
+from v1.models.processo_seletivo import ProcessoSeletivo
+
+from v1.serializer.processo_seletivo import ProcessoSeletivoSerializer
+
 from ..models.candidato_processo import  CandidatoProcesso
 
-class CandidatoProcessoSerializer(serializers.ModelSerializer):
+class CandidatoProcessoSerializer(FlexFieldsModelSerializer):
     class Meta:
         model = CandidatoProcesso
         fields = '__all__'
 
-class ListaProcessoUsuarioSerializer(serializers.ModelSerializer):
+class ListaProcessoUsuarioSerializer(FlexFieldsModelSerializer):
     processo = serializers.ReadOnlyField(source = 'processo.titulo')
     status = serializers.SerializerMethodField()
     class Meta:
@@ -18,16 +23,16 @@ class ListaProcessoUsuarioSerializer(serializers.ModelSerializer):
     def get_status(self,obj):
         return obj.get_status_display()
 
-class PerfilSerializer(serializers.ModelSerializer):
+class PerfilSerializer(FlexFieldsModelSerializer):
     class Meta:
         model = Perfil
-        fields = ['id', 'perfil.usuario.nome']
+        fields = '__all__'
 
-class ListaUsuarioEmProcessosSerializer(serializers.ModelSerializer):
-    # perfil = serializers.ReadOnlyField(source = 'perfil.usuario')
-    perfil = serializers.SerializerMethodField()
+class ListaUsuarioEmProcessosSerializer(FlexFieldsModelSerializer):
     class Meta:
         model = CandidatoProcesso
-        fields = ['perfil']
-    def get_perfil(self,obj):
-        return obj.perfil.usuario.nome
+        fields = '__all__'
+        expandable_fields = {
+          'perfil': (PerfilSerializer),
+          'processo': (ProcessoSeletivoSerializer)
+        }

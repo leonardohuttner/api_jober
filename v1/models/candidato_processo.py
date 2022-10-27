@@ -16,4 +16,4 @@ class CandidatoProcesso(models.Model):
     status = models.CharField(max_length=10, choices = status, default = '1')
 
     def __str__(self):
-        return '{} - {}'.format(self.processo.titulo, self.perfil.usuario.nome)
+        return '{} - {}'.format(self.processo.titulo, self.perfil.usuario)

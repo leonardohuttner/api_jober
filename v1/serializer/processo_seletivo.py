@@ -4,4 +4,4 @@ from ..models.processo_seletivo import ProcessoSeletivo
 class ProcessoSeletivoSerializer(serializers.ModelSerializer):
     class Meta:
         model = ProcessoSeletivo
-        fields = ('id','titulo')
+        fields = '__all__'

@@ -14,7 +14,7 @@ from .models.perfil import Perfil
 
 # Register your models here.
 class Usuarios(admin.ModelAdmin):
-    list_display = ('id', 'nome','sobrenome','criado_em')
+    list_display = ('id', 'nome','sobrenome', 'ativo','administrador','criado_em')
     list_display_links = ('id', 'nome')
 
 admin.site.register(Usuario, Usuarios)
